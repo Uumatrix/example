@@ -6,6 +6,9 @@ import com.umatrix.example.mapstruct.UserMapper;
 import com.umatrix.example.models.Users;
 import com.umatrix.example.service.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,16 @@ public class UserController {
 
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
 
+    @Operation(summary = "registers a user", description = "creates user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "user retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "user not found")
+    })
     @PostMapping("/register")
     public Users register(@Valid @RequestBody UserDto userDto) {
         Users user = UserMapper.INSTANCE.toUser(userDto);
@@ -35,16 +43,16 @@ public class UserController {
         return userService.register(user);
     }
 
+    @Operation(summary = "log in", description = "log in to account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "user retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "user not found")
+    })
     @PostMapping("/login")
     public String logIn(@Valid @RequestBody Users user) {
         return userService.verify(user);
     }
 
-    @Hidden
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
 }
 
 

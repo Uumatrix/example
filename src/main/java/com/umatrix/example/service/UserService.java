@@ -2,6 +2,7 @@ package com.umatrix.example.service;
 
 
 import com.umatrix.example.configs.security.service.JWTService;
+import com.umatrix.example.exceptionHandling.CustomExceptions.UserNotFound;
 import com.umatrix.example.models.Users;
 import com.umatrix.example.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
-public class UserService {
+public class
+UserService {
 
     @Autowired
     private UserRepo userRepo;
@@ -43,5 +47,20 @@ public class UserService {
     public boolean checkExistence(String username){
         return userRepo.existsByUsername(username);
     }
+
+    public List<Users> getAllUsers(){
+        return userRepo.findAll();
+    }
+
+    public Users getUserById(Long id){
+        return userRepo.findById(id)
+                .orElseThrow(UserNotFound::new);
+    }
+
+    public Users updateUser(Users user){
+        return userRepo.save(user);
+    }
+
+
 
 }

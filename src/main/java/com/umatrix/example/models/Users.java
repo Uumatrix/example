@@ -19,7 +19,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1, message = "id must be positive number")
-    private Integer id;
+    private Long id;
     @NotBlank(message = "name must not be blank, null, or empty")
     private String username;
     @NotBlank(message = "password must not be blank, null, or empty")
