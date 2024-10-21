@@ -1,0 +1,26 @@
+  spring:
+    application:
+      name: example
+    datasource:
+      driver-class-name: org.postgresql.Driver
+      username: postgres
+      password: 1234
+      url: jdbc:postgresql://localhost:5432/test
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql:true
+      hibernate:
+        ddl-auto: update
+    servlet:
+      multipart:
+        max-file-size: 2MB
+        max-request-size: 2MB
+  aws:
+    secret:
+      key: ""
+    access:
+      key: ""
+    bucket:
+      name: "burgerproject"
